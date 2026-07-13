@@ -28,14 +28,15 @@ body {
 .page-header h1 {
   font-family: "Fraunces", serif;
   font-weight: 600;
-  font-size: 40px;
+  font-size: clamp(28px, 6vw, 40px); /* scales smoothly with screen width */
   margin: 8px 0 0;
+  line-height: 1.15;
 }
 
 .intake-card {
   background: #1B3730;
   border-radius: 16px;
-  padding: 28px;
+  padding: clamp(18px, 4vw, 28px);
   border: 1px solid rgba(255,255,255,0.06);
 }
 
@@ -62,13 +63,14 @@ body {
 }
 
 .field input {
-  background: #132a24;
+  background: #132A24;
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 12px;
   color: #F1EDE4;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 15px;
+  font-size: 16px; /* 16px minimum prevents iOS Safari auto-zoom on focus */
+  width: 100%;
 }
 
 .field input:focus {
@@ -79,15 +81,16 @@ body {
 .predict-btn {
   grid-column: 1 / -1;
   margin-top: 6px;
-  padding: 13px;
+  padding: 15px;
   background: #E3A857;
   color: #132A24;
   border: none;
   border-radius: 8px;
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
+  min-height: 48px; /* comfortable tap target size for touch */
 }
 
 .predict-btn:disabled {
@@ -110,8 +113,9 @@ body {
 .panel {
   background: #1B3730;
   border-radius: 16px;
-  padding: 24px;
+  padding: clamp(18px, 4vw, 24px);
   border: 1px solid rgba(255,255,255,0.06);
+  min-width: 0; /* prevents grid blowout from long content */
 }
 
 .panel-label {
@@ -130,7 +134,8 @@ body {
 }
 
 .gauge {
-  width: 220px;
+  width: 100%;
+  max-width: 220px;
   margin-top: 12px;
 }
 
@@ -158,7 +163,7 @@ body {
 
 .score-number {
   font-family: "Fraunces", serif;
-  font-size: 48px;
+  font-size: clamp(36px, 8vw, 48px);
   font-weight: 600;
   margin-top: -8px;
 }
@@ -189,11 +194,17 @@ body {
   justify-content: space-between;
   font-size: 13px;
   margin-bottom: 6px;
+  gap: 8px;
+}
+
+.bar-label {
+  overflow-wrap: anywhere;
 }
 
 .bar-value {
   font-family: "IBM Plex Mono", monospace;
   color: #8FBBA0;
+  white-space: nowrap;
 }
 
 .bar-track {
@@ -237,7 +248,34 @@ body {
   background: #E3A857;
 }
 
+/* Tablets and small laptops */
 @media (max-width: 720px) {
-  .intake-form { grid-template-columns: 1fr; }
-  .dashboard { grid-template-columns: 1fr; }
+  .page {
+    padding: 32px 16px 60px;
+  }
+  .intake-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .predict-btn {
+    grid-column: 1 / -1;
+  }
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .page {
+    padding: 24px 14px 48px;
+  }
+  .intake-form {
+    grid-template-columns: 1fr; /* stack all fields in a single column */
+  }
+  .panel {
+    padding: 18px;
+  }
+  .gauge {
+    max-width: 180px;
+  }
 }
